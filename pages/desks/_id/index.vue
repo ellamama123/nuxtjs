@@ -92,8 +92,39 @@
       </div>
       <v-modal name="CreatDeskModal">
         <div class="test-body">
-          <h1>Create a new desk</h1>
-          <button class="btn btn-danger" @click.prevent="closeModal">X</button>
+          <h2>Create a new desk</h2>
+          <form action="#">
+            <div class="form-group">
+              <label for="">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter name...."
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Enter description...."
+              />
+            </div>
+            <div class="form-group">
+              <label for="">Image</label>
+              <input
+                type="file"
+                class="form-control"
+                placeholder="File here...."
+              />
+              <div class="preview"></div>
+            </div>
+          </form>
+          <div class="d-flex justify-content-end mt-3">
+            <button class="btn btn-success mr-3">Create a Desk</button>
+            <button class="btn btn-danger" @click.prevent="closeModal">Close</button>
+          </div>
+          
         </div>
       </v-modal>
     </div>
@@ -173,10 +204,10 @@ export default {
   padding: 1rem;
   padding-top: 3rem;
 }
-button.btn.btn-danger {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
+// button.btn.btn-danger {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+// }
 </style>
 
