@@ -76,7 +76,7 @@ export default {
   justify-content: space-around;
   align-items: center;
 
-  &__body {
+  &__ body {
     background: white;
   }
 }

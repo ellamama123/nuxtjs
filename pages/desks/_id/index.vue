@@ -1,96 +1,24 @@
 <template>
   <div>
     <div class="container">
-      <h3>Deck: Learning English</h3>
+      <h3>Deck {{ $route.params.id }}: Learning {{ deck.title }}</h3>
       <div class="tools">
         <div class="btn btn-success">Start now</div>
         <div class="btn btn-primary" @click.prevent="openModal">
           Creat a card
         </div>
       </div>
-      <div class="desk-list">
-        <div class="flip-card mt-2">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                src="img_avatar.png"
-                alt="Avatar"
-                style="width: 300px; height: 300px"
-              />
-            </div>
-            <div class="flip-card-back">
-              <h1>John Doe</h1>
-              <p>Architect & Engineer</p>
-              <p>We love that guy</p>
-            </div>
-          </div>
-        </div>
-        <div class="flip-card mt-2">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                src="img_avatar.png"
-                alt="Avatar"
-                style="width: 300px; height: 300px"
-              />
-            </div>
-            <div class="flip-card-back">
-              <h1>John Doe</h1>
-              <p>Architect & Engineer</p>
-              <p>We love that guy</p>
-            </div>
-          </div>
-        </div>
-        <div class="flip-card mt-2">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                src="img_avatar.png"
-                alt="Avatar"
-                style="width: 300px; height: 300px"
-              />
-            </div>
-            <div class="flip-card-back">
-              <h1>John Doe</h1>
-              <p>Architect & Engineer</p>
-              <p>We love that guy</p>
-            </div>
-          </div>
-        </div>
-        <div class="flip-card mt-2">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                src="img_avatar.png"
-                alt="Avatar"
-                style="width: 300px; height: 300px"
-              />
-            </div>
-            <div class="flip-card-back">
-              <h1>John Doe</h1>
-              <p>Architect & Engineer</p>
-              <p>We love that guy</p>
-            </div>
-          </div>
-        </div>
-        <div class="flip-card mt-2">
-          <div class="flip-card-inner">
-            <div class="flip-card-front">
-              <img
-                src="img_avatar.png"
-                alt="Avatar"
-                style="width: 300px; height: 300px"
-              />
-            </div>
-            <div class="flip-card-back">
-              <h1>John Doe</h1>
-              <p>Architect & Engineer</p>
-              <p>We love that guy</p>
-            </div>
-          </div>
+      <div class="desk-list" style="height: 700px">
+        <div class="row">
+          <card-list
+            v-for="card in cards"
+            :key="card._id"
+            :thumbnail="card.thumbnail"
+            :title="card.title"
+          />
         </div>
       </div>
-      <v-modal name="CreatDeskModal">
+      <v-modal name="CreatCardModal">
         <div class="test-body">
           <h2>Create a new desk</h2>
           <form action="#">
@@ -122,9 +50,10 @@
           </form>
           <div class="d-flex justify-content-end mt-3">
             <button class="btn btn-success mr-3">Create a Desk</button>
-            <button class="btn btn-danger" @click.prevent="closeModal">Close</button>
+            <button class="btn btn-danger" @click.prevent="closeModal">
+              Close
+            </button>
           </div>
-          
         </div>
       </v-modal>
     </div>
@@ -132,20 +61,64 @@
 </template>
 
 <script>
+import CardList from '@/components/Cards/CardList.vue'
 export default {
+  components: { CardList },
   name: 'DeckInfo',
   validate(context) {
     console.log(context)
     return /^[0-9]$/.test(context.params.id)
   },
+  data() {
+    return {
+      cards: [
+        {
+          _id: '1',
+          thumbnail:
+            'https://cdn.tgdd.vn/Files/2019/10/24/1211885/duong-tinh-luyen-la-gi-co-nen-su-dung-duong-tinh-luyen-hay-khong-201910241522445701.jpg',
+          title: 'Sugar',
+          des: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to ma",
+        },
+        {
+          _id: '2',
+          thumbnail:
+            'https://baokhanhhoa.vn/dataimages/201909/original/images5377069_hoa.jpg',
+          title: 'Flower',
+          des: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to ma",
+        },
+        {
+          _id: '3',
+          thumbnail:
+            'https://maivangthuduc.com/wp-content/uploads/2017/12/20-C%C3%82Y-XANH.jpg',
+          title: 'Tree',
+          des: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to ma",
+        },
+      ],
+    }
+  },
+  asyncData(context, callback) {
+    console.log('hello')
+    // eslint-disable-next-line
+    setTimeout(() => {
+      callback(null, {
+        deck: {
+          _id: '1',
+          thumbnail:
+            'https://dangkyduhoc.vn/wp-content/uploads/2021/04/52351011-english-british-england-language-education-concept.jpg',
+          title: `English ${context.params.id}`,
+          des: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to ma",
+        },
+      })
+    }, 1500)
+  },
   methods: {
     openModal() {
       console.log('12121')
-      this.$modal.open({ name: 'CreatDeskModal' })
+      this.$modal.open({ name: 'CreatCardModal' })
     },
     closeModal() {
       console.log('12121')
-      this.$modal.close({ name: 'CreatDeskModal' })
+      this.$modal.close({ name: 'CreatCardModal' })
     },
   },
 }
